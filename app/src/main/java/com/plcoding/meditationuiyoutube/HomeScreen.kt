@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.plcoding.meditationuiyoutube.ui.theme.ButtonBlue
 import com.plcoding.meditationuiyoutube.ui.theme.DarkerButtonBlue
 import com.plcoding.meditationuiyoutube.ui.theme.DeepBlue
+import com.plcoding.meditationuiyoutube.ui.theme.LightRed
 import com.plcoding.meditationuiyoutube.ui.theme.TextWhite
 import com.plcoding.meditationuiyoutube.ui.theme.Typography
 import com.plcoding.meditationuiyoutube.ui.theme.gothicA1
@@ -45,6 +47,7 @@ fun HomeScreen() {
         Column {
             GreetingSection()
             ChipSection(listOf("Sweet sleep", "Insomnia", "Depression"))
+            CurrentMeditation()
         }
 
     }
@@ -120,4 +123,53 @@ fun ChipSection(
 
 }
 
+@Composable
+fun CurrentMeditation(
+    color: Color = LightRed
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(15.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(color)
+            .padding(horizontal = 15.dp, vertical = 20.dp)
+            .fillMaxWidth()
+
+    ) {
+
+        Column {
+            Text(
+                text = "Daily Thought",
+                style = MaterialTheme.typography.h2,
+                color = TextWhite
+            )
+            Text(
+                text = "Meditation  -  3-10 min",
+                style = MaterialTheme.typography.body1,
+                color = TextWhite
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(ButtonBlue)
+                .padding(10.dp),
+            contentAlignment = Alignment.Center
+        ) {
+
+            Icon(
+                painter = painterResource(id = R.drawable.ic_play),
+                contentDescription = "Play meditation",
+                tint = Color.White,
+                modifier = Modifier.size(16.dp)
+            )
+
+        }
+
+    }
+}
 
