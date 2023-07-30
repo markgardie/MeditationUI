@@ -35,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.plcoding.meditationuiyoutube.ui.theme.AquaBlue
 import com.plcoding.meditationuiyoutube.ui.theme.Beige1
 import com.plcoding.meditationuiyoutube.ui.theme.Beige2
 import com.plcoding.meditationuiyoutube.ui.theme.Beige3
@@ -64,36 +65,50 @@ fun HomeScreen() {
             GreetingSection()
             ChipSection(listOf("Sweet sleep", "Insomnia", "Depression"))
             CurrentMeditation()
-            FeatureSection(listOf(
-                FeatureEntity(
-                    title = "Sleep meditation",
-                    R.drawable.ic_headphone,
-                    BlueViolet1,
-                    BlueViolet2,
-                    BlueViolet3
-                ),
-                FeatureEntity(
-                    title = "Tips for sleeping",
-                    R.drawable.ic_videocam,
-                    LightGreen1,
-                    LightGreen2,
-                    LightGreen3
-                ),
-                FeatureEntity(
-                    title = "Night island",
-                    R.drawable.ic_headphone,
-                    OrangeYellow1,
-                    OrangeYellow2,
-                    OrangeYellow3
-                ),
-                FeatureEntity(
-                    title = "Calming sounds",
-                    R.drawable.ic_headphone,
-                    Beige1,
-                    Beige2,
-                    Beige3
-                )))
+            FeatureSection(
+                listOf(
+                    FeatureEntity(
+                        title = "Sleep meditation",
+                        R.drawable.ic_headphone,
+                        BlueViolet1,
+                        BlueViolet2,
+                        BlueViolet3
+                    ),
+                    FeatureEntity(
+                        title = "Tips for sleeping",
+                        R.drawable.ic_videocam,
+                        LightGreen1,
+                        LightGreen2,
+                        LightGreen3
+                    ),
+                    FeatureEntity(
+                        title = "Night island",
+                        R.drawable.ic_headphone,
+                        OrangeYellow1,
+                        OrangeYellow2,
+                        OrangeYellow3
+                    ),
+                    FeatureEntity(
+                        title = "Calming sounds",
+                        R.drawable.ic_headphone,
+                        Beige1,
+                        Beige2,
+                        Beige3
+                    )
+                )
+            )
         }
+
+        BottomMenu(
+            items = listOf(
+                BottomMenuContent("Home", R.drawable.ic_home),
+                BottomMenuContent("Meditate", R.drawable.ic_bubble),
+                BottomMenuContent("Sleep", R.drawable.ic_moon),
+                BottomMenuContent("Music", R.drawable.ic_music),
+                BottomMenuContent("Profile", R.drawable.ic_profile)
+            ),
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
 
     }
 }
@@ -345,4 +360,88 @@ fun FeatureItem(
             )
         }
     }
+}
+
+@Composable
+fun BottomMenu(
+    items: List<BottomMenuContent>,
+    modifier: Modifier = Modifier,
+    activeHighlightColor: Color = ButtonBlue,
+    activeTextColor: Color = Color.White,
+    inactiveTextColor: Color = AquaBlue,
+    initialSelectedItemIndex: Int = 0
+) {
+    var selectedItemIndex by remember {
+        mutableStateOf(initialSelectedItemIndex)
+    }
+
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .background(DeepBlue)
+            .padding(15.dp)
+    ) {
+
+        items.forEachIndexed { index, item ->
+            BottomMenuItem(
+                item = item,
+                isSelected = index == selectedItemIndex,
+                activeHighlightColor = activeHighlightColor,
+                activeTextColor = activeTextColor,
+                inactiveTextColor = inactiveTextColor
+            ) {
+
+                selectedItemIndex = index
+
+            }
+        }
+
+    }
+}
+
+@Composable
+fun BottomMenuItem(
+    item: BottomMenuContent,
+    isSelected: Boolean = false,
+    activeHighlightColor: Color = ButtonBlue,
+    activeTextColor: Color = Color.White,
+    inactiveTextColor: Color = AquaBlue,
+    onItemClick: () -> Unit
+) {
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .clickable { onItemClick() }
+    ) {
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(
+                    if (isSelected) activeHighlightColor
+                    else Color.Transparent
+                )
+                .padding(10.dp)
+        ) {
+
+            Icon(
+                painter = painterResource(id = item.iconId),
+                contentDescription = item.title,
+                tint = if (isSelected) activeTextColor else inactiveTextColor,
+                modifier = Modifier.size(20.dp)
+            )
+
+        }
+
+        Text(
+            text = item.title,
+            color = if (isSelected) activeTextColor else inactiveTextColor
+        )
+    }
+
 }
